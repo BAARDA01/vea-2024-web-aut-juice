@@ -71,6 +71,7 @@ describe("Juice-shop scenarios", () => {
       HomePage.visit();
     });
 
+
     it("Search and validate Lemon", () => {
       // Click on search icon
       HomePage.searchQuery.click();
@@ -81,6 +82,7 @@ describe("Juice-shop scenarios", () => {
       // Validate that the card (should) contains "Sour but full of vitamins."
       HomePage.dialogContainer.should("contain.text", 'Sour but full of vitamins.');
     });
+
 
     // Create scenario - Search 500ml and validate Lemon, while having multiple cards
     it('Search for 500ml, select Lemon Juice card, and validate description', () => {
@@ -93,25 +95,47 @@ describe("Juice-shop scenarios", () => {
     // Validate that the card (should) contains "Sour but full of vitamins."
     HomePage.dialogContainer.should("contain.text", 'Sour but full of vitamins.');
     });
+
+
     // Create scenario - Search 500ml and validate cards
+    it("Search 500ml and validate Lemon, while having multiple cards", () => {
     // Click on search icon
+    HomePage.searchQuery.click();
     // Search for 500ml
+    HomePage.searchQueryText.type("500ml{enter}");
     // Select a product card - Eggfruit Juice (500ml)
+    HomePage.selectCards.filter(":contains('Eggfruit Juice (500ml)')").click();
     // Validate that the card (should) contains "Now with even more exotic flavour."
+    HomePage.dialogContainer.should("contain.text", 'Now with even more exotic flavour.');
     // Close the card
+    
     // Select a product card - Lemon Juice (500ml)
+    HomePage.overlay.click({force: true});
+    HomePage.selectCards.filter(":contains('Lemon Juice (500ml)')").click();
     // Validate that the card (should) contains "Sour but full of vitamins."
+    HomePage.dialogContainer.should("contain.text", 'Sour but full of vitamins.');
     // Close the card
+
     // Select a product card - Strawberry Juice (500ml)
+    HomePage.overlay.click({force: true});
+    HomePage.selectCards.filter(":contains('Strawberry Juice (500ml)')").click();
     // Validate that the card (should) contains "Sweet & tasty!"
-
+    HomePage.dialogContainer.should("contain.text", 'Sweet & tasty!');
+  });
     // Create scenario - Read a review
+    it("Read a review", () => {
     // Click on search icon
+    HomePage.searchQuery.click();
     // Search for King
+    HomePage.searchQueryText.type("King{enter}");
     // Select a product card - OWASP Juice Shop "King of the Hill" Facemask
+    HomePage.selectCards.filter(`:contains('OWASP Juice Shop "King of the Hill" Facemask')`).click();
     // Click expand reviews button/icon (wait for reviews to appear)
+    cy.wait(300);
+      HomePage.reviews.click();
     // Validate review - K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!
-
+    HomePage.comments.filter(`:contains('K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!')`).should("exist");
+  });
     // Create scenario - Add a review
     // Click on search icon
     // Search for Raspberry
