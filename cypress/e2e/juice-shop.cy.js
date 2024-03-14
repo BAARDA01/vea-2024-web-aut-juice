@@ -12,29 +12,6 @@ describe("Juice-shop scenarios", () => {
     });
 
     it("Login", () => {
-      // click account button
-    HomePage.accountButton.click();
-
-    // Click Login button
-    HomePage.loginButton.click();
-
-    // Set email value to "demo"
-    LoginPage.emailField.type("demo");
-
-    // Set password value to "demo"
-    LoginPage.passwordField.type("demo");
-
-    // Click Log in
-    LoginPage.loginButton.click();
-
-    // Click Account button
-    HomePage.accountButton.click();
-
-    // Validate that "demo" account name appears in the menu section
-    HomePage.profileMenuOption.should("contain", "demo");
-    });
-
-    it("Registration", () => {
       // Click Account button
       HomePage.accountButton.click();
       // Login button
@@ -42,14 +19,10 @@ describe("Juice-shop scenarios", () => {
       // Click "Not yet a customer?"
       LoginPage.notYetCustomer.click();
       // Find - how to generate random number in JS
-
-      //const randomNumber = Math.floor(Math.random() * 1000);
-
       // Use that number to genarate unique email address, e.g.: email_7584@ebox.com
 
       // Save that email address to some variable
-     
-      RegistrationPage.EmailField.type("123456@email.com")
+      RegisterPage.emailInput.type(email);
       // Fill in password field and repeat password field with same password
       RegistrationPage.paswwordField.type("123456")
       RegistrationPage.paswordFieldReapeat.type("123456")
