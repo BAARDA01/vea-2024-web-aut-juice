@@ -1,5 +1,7 @@
 import { HomePage } from "../pageObjects/HomePage";
 import { LoginPage } from "../pageObjects/LoginPage";
+import { RegistrationPage } from "../pageObjects/RegistrationPage";
+import { FunctionsForCyperss } from "../pageObjects/Functions";
 
 describe("Juice-shop scenarios", () => {
   context("Without auto login", () => {
@@ -34,16 +36,36 @@ describe("Juice-shop scenarios", () => {
 
     it("Registration", () => {
       // Click Account button
+      HomePage.accountButton.click();
       // Login button
+      HomePage.loginButton.click();
       // Click "Not yet a customer?"
+      LoginPage.notYetCustomer.click();
       // Find - how to generate random number in JS
+
+      //const randomNumber = Math.floor(Math.random() * 1000);
+
       // Use that number to genarate unique email address, e.g.: email_7584@ebox.com
+
       // Save that email address to some variable
+     
+      RegistrationPage.EmailField.type("123456@email.com")
       // Fill in password field and repeat password field with same password
+      RegistrationPage.paswwordField.type("123456")
+      RegistrationPage.paswordFieldReapeat.type("123456")
+
       // Click on Security Question menu
+
+      RegistrationPage.clickOnSecurityQuestion.click();
+
       // Select  "Name of your favorite pet?"
+      RegistrationPage.NameOfYourFavoritePet.click();
+
+
       // Fill in answer
+      RegistrationPage.FillInAnswer.type("Kakis");
       // Click Register button
+      RegistrationPage.registerButton.click();
       // Set email value to previously created email
       // Set password value to previously used password value
       // Click login button
