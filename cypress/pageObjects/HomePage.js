@@ -19,7 +19,7 @@ export class HomePage extends BasePage {
     return cy.get("button#navbarLoginButton");
   }
   static get profileMenuOption() {
-    return cy.get("cdk-describedby-message-oux-1-2");
+    return cy.get('.mat-nav-list');
   }
 
 }
