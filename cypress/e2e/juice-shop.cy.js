@@ -7,6 +7,9 @@ import { DeliveryMethodPage } from "../pageObjects/DeliveryMethodPage";
 import { PaymentOptionsPage } from "../pageObjects/PaymentOptionsPage";
 import { OrderSummaryPage } from "../pageObjects/OrderSummaryPage";
 import { OrderCompletionPage } from "../pageObjects/OrderCompletionPage";
+import { CreateAddressPage } from "../pageObjects/CreateAddressPage";
+import { SavedAddressesPage } from "../pageObjects/SavedAddressesPage";
+import { SavedPaymentMethodsPage } from "../pageObjects/SavedPaymentMethodsPage";
 
 describe("Juice-shop scenarios", () => {
   context("Without auto login", () => {
@@ -216,27 +219,62 @@ describe("Juice-shop scenarios", () => {
   });
 
     // Create scenario - Add address
-    // Click on Account
-    // Click on Orders & Payment
-    // Click on My saved addresses
-    // Create page object - SavedAddressesPage
-    // Click on Add New Address
-    // Create page object - CreateAddressPage
-    // Fill in the necessary information
-    // Click Submit button
-    // Validate that previously added address is visible
+    it("Add address", () => {
+      // Click on Account
+      HomePage.accountButton.click();
+      // Click on Orders & Payment
+      HomePage.ordersButton.click();
+      // Click on My saved addresses
+      HomePage.savedAddressed.click();
+      // Create page object - SavedAddressesPage
+
+      // Click on Add New Address
+      SavedAddressesPage.addNewAdressButton.click();
+      // Create page object - CreateAddressPage
+
+      // Fill in the necessary information
+      CreateAddressPage.addcountry.type("Latvia");
+      CreateAddressPage.addName.type("Karlis");
+      var randomNumber = "371" + Math.round(Math.random() * 10000000);
+      CreateAddressPage.addMobileNumber.type(randomNumber);
+      var randomZipinLV = "LV-" + Math.round(Math.random() * 9999);
+      CreateAddressPage.addZipCode.type(randomZipinLV);
+      var address = "Iela - " + Math.round(Math.random() * 100);
+      CreateAddressPage.addAddress.type(address);
+      CreateAddressPage.addCity.type("Ventspils");
+      CreateAddressPage.addState.type("Latvia");
+      // Click Submit button
+      CreateAddressPage.clickSubmitButton.click();
+      // Validate that previously added address is visible
+      SavedAddressesPage.checkaddress.filter(':contains("Karlis")').should('exist');
+
+    });
 
     // Create scenario - Add payment option
-    // Click on Account
-    // Click on Orders & Payment
-    // Click on My payment options
-    // Create page object - SavedPaymentMethodsPage
-    // Click Add new card
-    // Fill in Name
-    // Fill in Card Number
-    // Set expiry month to 7
-    // Set expiry year to 2090
-    // Click Submit button
-    // Validate that the card shows up in the list
+    it("Add payment option", () => {
+      
+      // Click on Account
+      HomePage.accountButton.click();
+      // Click on Orders & Payment
+      HomePage.ordersButton.click();
+      // Click on My payment options
+      HomePage.savedPayments.click();
+      // Create page object - SavedPaymentMethodsPage
+      // Click Add new card
+      SavedPaymentMethodsPage.addDrop.click();
+      // Fill in Name
+      const name = "Some name here " + Math.round(Math.random()*1000);
+      SavedPaymentMethodsPage.addName.type(name);
+      // Fill in Card Number
+      SavedPaymentMethodsPage.addCardNumber.type(Math.round(Math.random()*(9999**4) + (10000**4/10)));
+      // Set expiry month to 7
+      SavedPaymentMethodsPage.addExpireMonth.select(6);
+      // Set expiry year to 2090
+      SavedPaymentMethodsPage.addExpireYear.select(10);
+      // Click Submit button
+      SavedPaymentMethodsPage.submitButton.click();
+      // Validate that the card shows up in the list
+      SavedPaymentMethodsPage.cards.filter(`:contains('${name}')`).should("exist");
+    });
   });
 });
