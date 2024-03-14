@@ -1,7 +1,12 @@
 import { HomePage } from "../pageObjects/HomePage";
 import { LoginPage } from "../pageObjects/LoginPage";
 import { RegisterPage } from "../pageObjects/RegistrationPage";
-
+import { BasketPage } from "../pageObjects/BasketPage";
+import { SelectAddressPage } from "../pageObjects/SelectAddressPage";
+import { DeliveryMethodPage } from "../pageObjects/DeliveryMethodPage";
+import { PaymentOptionsPage } from "../pageObjects/PaymentOptionsPage";
+import { OrderSummaryPage } from "../pageObjects/OrderSummaryPage";
+import { OrderCompletionPage } from "../pageObjects/OrderCompletionPage";
 
 describe("Juice-shop scenarios", () => {
   context("Without auto login", () => {
@@ -137,41 +142,78 @@ describe("Juice-shop scenarios", () => {
     HomePage.comments.filter(`:contains('K33p5 y0ur ju1cy 5plu773r 70 y0ur53lf!')`).should("exist");
   });
     // Create scenario - Add a review
+    it("Add a review",() => {
     // Click on search icon
+    HomePage.searchQuery.click();
     // Search for Raspberry
+    HomePage.searchQueryText.type("Raspberry{enter}")
     // Select a product card - Raspberry Juice (1000ml)
+    HomePage.selectCards.filter(`:contains('Raspberry Juice (1000ml)')`).click();
     // Type in review - "Tastes like metal"
+    HomePage.reviewInput.click();
+    cy.wait(150);
+    HomePage.reviewInput.type("Tastes like metal");
     // Click Submit
+    HomePage.submitReviewInput.click();
     // Click expand reviews button/icon (wait for reviews to appear)
+    cy.wait(300);
+    HomePage.reviews.click();
     // Validate review -  "Tastes like metal"
+    HomePage.comments.filter(`:contains('Tastes like metal')`).should("exist");
+  });
 
-    // Create scenario - Validate product card amount
-    // Validate that the default amount of cards is 12
-    // Change items per page (at the bottom of page) to 24
-    // Validate that the amount of cards is 24
-    // Change items per page (at the bottom of page) to 36
-    // Validate that the amount of cards is 35
+     // Create scenario - Validate product card amount
+     it("Validate product card amount", () => {
+      // Validate that the default amount of cards is 12
+      HomePage.selectCards.should("have.length", 12);
+      // Change items per page (at the bottom of page) to 24
+      HomePage.itemsperPage.click();
+      HomePage.itemsperPageOption.filter(`:contains('24')`).click();
+      // Validate that the amount of cards is 24
+      HomePage.selectCards.should("have.length", 24);
+      // Change items per page (at the bottom of page) to 36
+      HomePage.itemsperPage.click();
+      HomePage.itemsperPageOption.filter(`:contains('36')`).click();
+      // Validate that the amount of cards is 35
+      HomePage.selectCards.should("have.length", 35);
+    });
 
     // Create scenario - Buy Girlie T-shirt
+    it("Buy Girlie T-shirt",() => {
     // Click on search icon
+    HomePage.searchQuery.click();
     // Search for Girlie
+    //HomePage.searchIcon.type("Girlie{enter}");
+    HomePage.searchQueryText.type("Girlie{enter}");
     // Add to basket "Girlie"
+    HomePage.addToBasket.click();
     // Click on "Your Basket" button
+    HomePage.basketButton.click();
     // Create page object - BasketPage
     // Click on "Checkout" button
+    BasketPage.buttonCheckout.click();
     // Create page object - SelectAddressPage
     // Select address containing "United Fakedom"
+    SelectAddressPage.addreses.filter(`:contains('United Fakedom')`).click();
     // Click Continue button
+    SelectAddressPage.buttonContinue.click();
     // Create page object - DeliveryMethodPage
     // Select delivery speed Standard Delivery
+    DeliveryMethodPage.deliveryOptions.filter(`:contains('Standard Delivery')`).click();
     // Click Continue button
+    DeliveryMethodPage.buttonContinue.click();
     // Create page object - PaymentOptionsPage
     // Select card that ends with "5678"
+    PaymentOptionsPage.paymentOptions.filter(`:contains('************5678')`).get(`.mat-radio-button`).click();
     // Click Continue button
+    PaymentOptionsPage.buttonContinue.click();
     // Create page object - OrderSummaryPage
     // Click on "Place your order and pay"
+    OrderSummaryPage.checkoutButton.click();
     // Create page object - OrderCompletionPage
     // Validate confirmation - "Thank you for your purchase!"
+    OrderCompletionPage.title.should("contain.text", "Thank you for your purchase!")
+  });
 
     // Create scenario - Add address
     // Click on Account
