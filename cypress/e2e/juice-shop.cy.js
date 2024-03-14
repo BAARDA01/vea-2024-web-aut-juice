@@ -32,7 +32,6 @@ describe("Juice-shop scenarios", () => {
       // Click Account button
       HomePage.accountButton.click();
       // Login button
-      //HomePage.logoutButton.click();
       HomePage.loginButton.click();
       // Click "Not yet a customer?"
       LoginPage.toRegisterLink.click();
